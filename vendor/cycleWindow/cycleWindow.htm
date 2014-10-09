@@ -1,0 +1,884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<!-- saved from url=(0081)https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>cycleWindow.ahk</title><style>/*
+   IMPORTANT: If you're editing this file in the output directory of one of
+   your projects, your changes will be overwritten the next time you run
+   Natural Docs.  Instead, copy this file to your project directory, make your
+   changes, and you can use it with -s.  Even better would be to make a CSS
+   file in your project directory with only your changes, which you can then
+   use with -s [original style] [your changes].
+
+   On the other hand, if you're editing this file in the Natural Docs styles
+   directory, the changes will automatically be applied to all your projects
+   that use this style the next time Natural Docs is run on them.
+
+   This file is part of Natural Docs, which is Copyright (C) 2003-2008 Greg Valure
+   Natural Docs is licensed under the GPL
+*/
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif, "MS sans serif";
+    color: #000000;
+    margin: 0; padding: 0;
+    }
+
+.ContentPage,
+.IndexPage,
+.FramedMenuPage {
+    background-color: #E8E8E8;
+    }
+.FramedContentPage,
+.FramedIndexPage,
+.FramedSearchResultsPage,
+.PopupSearchResultsPage {
+    background-color: #FFFFFF;
+    }
+
+
+a:link,
+a:visited { color: #900000; text-decoration: none }
+a:hover { color: #900000; text-decoration: underline }
+a:active { color: #FF0000; text-decoration: underline }
+
+td {
+    vertical-align: top }
+
+img { border: 0;  }
+
+
+/*
+    Comment out this line to use web-style paragraphs (blank line between
+    paragraphs, no indent) instead of print-style paragraphs (no blank line,
+    indented.)
+*/
+p {
+    text-indent: 0ex; margin-top: 2px; }
+
+
+/*  Opera doesn't break with just wbr, but will if you add this.  */
+.Opera wbr:after {
+	content: "\00200B";
+	}
+
+/*  Blockquotes are used as containers for things that may need to scroll.  */
+blockquote {
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    }
+
+
+.Firefox1 blockquote {
+    padding-bottom: .5em;
+    }
+
+/*  Turn off scrolling when printing.  */
+@media print {
+    blockquote {
+        overflow: visible;
+        }
+    .IE blockquote {
+        width: auto;
+        }
+    }
+
+
+
+#Menu {
+    font-size: 9pt;
+    padding: 10px 0 0 0;
+    }
+.ContentPage #Menu,
+.IndexPage #Menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 31ex;
+    overflow: hidden;
+    }
+.ContentPage .Firefox #Menu,
+.IndexPage .Firefox #Menu {
+    width: 27ex;
+    }
+
+
+    .MTitle {
+        font-size: 16pt; font-weight: bold; font-variant: small-caps;
+        text-align: center;
+        padding: 5px 10px 15px 10px;
+        border-bottom: 1px dotted #000000;
+        margin-bottom: 15px }
+
+    .MSubTitle {
+        font-size: 9pt; font-weight: normal; font-variant: normal;
+        margin-top: 1ex; margin-bottom: 5px }
+
+
+    .MEntry a:link,
+    .MEntry a:hover,
+    .MEntry a:visited { color: #606060; margin-right: 0 }
+    .MEntry a:active { color: #A00000; margin-right: 0 }
+
+
+    .MGroup {
+        font-variant: small-caps; font-weight: bold;
+        margin: 1em 0 1em 10px;
+        }
+
+    .MGroupContent {
+        font-variant: normal; font-weight: normal }
+
+    .MGroup a:link,
+    .MGroup a:hover,
+    .MGroup a:visited { color: #545454; margin-right: 10px }
+    .MGroup a:active { color: #A00000; margin-right: 10px }
+
+
+    .MFile,
+    .MText,
+    .MLink,
+    .MIndex {
+        padding: 1px 17px 2px 10px;
+        margin: .25em 0 .25em 0;
+        }
+
+    .MText {
+        font-size: 8pt; font-style: italic }
+
+    .MLink {
+        font-style: italic }
+
+    #MSelected {
+        color: #000000; background-color: #FFFFFF;
+        /*  Replace padding with border.  */
+        padding: 0 10px 0 10px;
+        border-width: 1px 2px 2px 0; border-style: solid; border-color: #000000;
+        margin-right: 5px;
+        }
+
+    /*  Close off the left side when its in a group.  */
+    .MGroup #MSelected {
+        padding-left: 9px; border-left-width: 1px }
+
+    /*  A treat for Mozilla users.  Blatantly non-standard.  Will be replaced with CSS 3 attributes when finalized/supported.  */
+    .Firefox #MSelected {
+        -moz-border-radius-topright: 10px;
+        -moz-border-radius-bottomright: 10px }
+    .Firefox .MGroup #MSelected {
+        -moz-border-radius-topleft: 10px;
+        -moz-border-radius-bottomleft: 10px }
+
+
+    #MSearchPanel {
+        padding: 0px 6px;
+        margin: .25em 0;
+        }
+
+
+    #MSearchField {
+        font: italic 9pt Verdana, sans-serif;
+        color: #606060;
+        background-color: #E8E8E8;
+        border: none;
+        padding: 2px 4px;
+        width: 100%;
+        }
+    /* Only Opera gets it right. */
+    .Firefox #MSearchField,
+    .IE #MSearchField,
+    .Safari #MSearchField {
+        width: 94%;
+        }
+    .Opera9 #MSearchField,
+    .Konqueror #MSearchField {
+        width: 97%;
+        }
+    .FramedMenuPage .Firefox #MSearchField,
+    .FramedMenuPage .Safari #MSearchField,
+    .FramedMenuPage .Konqueror #MSearchField {
+        width: 98%;
+        }
+
+    /* Firefox doesn't do this right in frames without #MSearchPanel added on.
+        It's presence doesn't hurt anything other browsers. */
+    #MSearchPanel.MSearchPanelInactive:hover #MSearchField {
+        background-color: #FFFFFF;
+        border: 1px solid #C0C0C0;
+        padding: 1px 3px;
+        }
+    .MSearchPanelActive #MSearchField {
+        background-color: #FFFFFF;
+        border: 1px solid #C0C0C0;
+        font-style: normal;
+        padding: 1px 3px;
+        }
+
+    #MSearchType {
+        visibility: hidden;
+        font: 8pt Verdana, sans-serif;
+        width: 98%;
+        padding: 0;
+        border: 1px solid #C0C0C0;
+        }
+    .MSearchPanelActive #MSearchType,
+    /*  As mentioned above, Firefox doesn't do this right in frames without #MSearchPanel added on. */
+    #MSearchPanel.MSearchPanelInactive:hover #MSearchType,
+    #MSearchType:focus {
+        visibility: visible;
+        color: #606060;
+        }
+    #MSearchType option#MSearchEverything {
+        font-weight: bold;
+        }
+
+    .Opera8 .MSearchPanelInactive:hover,
+    .Opera8 .MSearchPanelActive {
+        margin-left: -1px;
+        }
+
+
+    iframe#MSearchResults {
+        width: 60ex;
+        height: 15em;
+        }
+    #MSearchResultsWindow {
+        display: none;
+        position: absolute;
+        left: 0; top: 0;
+        border: 1px solid #000000;
+        background-color: #E8E8E8;
+        }
+    #MSearchResultsWindowClose {
+        font-weight: bold;
+        font-size: 8pt;
+        display: block;
+        padding: 2px 5px;
+        }
+    #MSearchResultsWindowClose:link,
+    #MSearchResultsWindowClose:visited {
+        color: #000000;
+        text-decoration: none;
+        }
+    #MSearchResultsWindowClose:active,
+    #MSearchResultsWindowClose:hover {
+        color: #800000;
+        text-decoration: none;
+        background-color: #F4F4F4;
+        }
+
+
+
+
+#Content {
+    padding-bottom: 15px;
+    }
+
+.ContentPage #Content {
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+    border-color: #000000;
+    background-color: #FFFFFF;
+    font-size: 9pt;  /* To make 31ex match the menu's 31ex. */
+    
+    }
+.ContentPage .Firefox #Content {
+    margin-left: 27ex;
+    }
+
+
+
+    .CTopic {
+        font-size: 10pt;
+        margin-bottom: 3em;
+        }
+
+
+    .CTitle {
+        font-size: 12pt; font-weight: bold;
+        border-width: 0 0 1px 0; border-style: solid; border-color: #A0A0A0;
+        margin: 0 15px .5em 15px }
+
+    .CGroup .CTitle {
+        font-size: 16pt; font-variant: small-caps;
+        padding-left: 15px; padding-right: 15px;
+        border-width: 0 0 2px 0; border-color: #000000;
+        margin-left: 0; margin-right: 0 }
+
+    .CClass .CTitle,
+    .CInterface .CTitle,
+    .CDatabase .CTitle,
+    .CDatabaseTable .CTitle,
+    .CSection .CTitle {
+        font-size: 18pt;
+        color: #FFFFFF; background-color: #A0A0A0;
+        padding: 10px 15px 10px 15px;
+        border-width: 2px 0; border-color: #000000;
+        margin-left: 0; margin-right: 0 }
+
+    #MainTopic .CTitle {
+        font-size: 20pt;
+        color: #FFFFFF; background-color: #7070C0;
+        padding: 10px 15px 10px 15px;
+        border-width: 0 0 3px 0; border-color: #000000;
+        margin-left: 0; margin-right: 0 }
+
+    .CBody {
+        margin-left: 15px; margin-right: 15px }
+
+
+    .CToolTip {
+        position: absolute; visibility: hidden;
+        left: 0; top: 0;
+        background-color: #FFFFE0;
+        padding: 5px;
+        border-width: 1px 2px 2px 1px; border-style: solid; border-color: #000000;
+        font-size: 8pt;
+        }
+
+    .Opera .CToolTip {
+        max-width: 98%;
+        }
+
+    /*  Scrollbars would be useless.  */
+    .CToolTip blockquote {
+        overflow: hidden;
+        }
+    .IE6 .CToolTip blockquote {
+        overflow: visible;
+        }
+
+    .CHeading {
+        font-weight: bold; font-size: 10pt;
+        margin: 1.5em 0 .5em 0;
+        }
+
+    .CBody pre {
+        font: 9pt "Courier New", Courier, monospace;
+        margin: 1em 0;
+        }
+
+    .CBody ul {
+        /*  I don't know why CBody's margin doesn't apply, but it's consistent across browsers so whatever.
+             Reapply it here as padding.  */
+        padding-left: 15px; padding-right: 15px;
+        margin: .5em 5ex .5em 5ex;
+        }
+
+    .CDescriptionList {
+        margin: .5em 5ex 0 5ex }
+
+    .CDLEntry {
+            font: 10pt "Courier New", Courier, monospace; color: #808080;
+            padding-bottom: .25em;
+            white-space: nowrap }
+
+    CDLDescription {
+            font-size: 10pt;  /*  For browsers that don't inherit correctly, like Opera 5.  */
+            padding-bottom: .5em; padding-left: 5ex }
+
+
+    .CTopic img {
+        text-align: center;
+        display: block;
+        margin: 1em auto;
+        }
+    .CImageCaption {
+        font-variant: small-caps;
+        font-size: 8pt;
+        color: #808080;
+        text-align: center;
+        position: relative;
+        top: 1em;
+        }
+
+    .CImageLink {
+        color: #808080;
+        font-style: italic;
+        }
+    a.CImageLink:link,
+    a.CImageLink:visited,
+    a.CImageLink:hover { color: #808080 }
+
+
+
+
+
+.Prototype {
+    font: 10pt "Courier New", Courier, monospace;
+    padding: 5px 3ex;
+    border-width: 1px; border-style: solid;
+    margin: 0 5ex 1.5em 5ex;
+    }
+
+    .Prototype td {
+        font-size: 10pt;
+        }
+
+    .PDefaultValue,
+    .PDefaultValuePrefix,
+    .PTypePrefix {
+        color: #8F8F8F;
+        }
+    .PTypePrefix {
+        text-align: right;
+        }
+    .PAfterParameters {
+        vertical-align: bottom;
+        }
+
+    .IE .Prototype table {
+        padding: 0;
+        }
+
+    .CFunction .Prototype {
+        background-color: #F4F4F4; border-color: #D0D0D0 }
+    .CProperty .Prototype {
+        background-color: #F4F4FF; border-color: #C0C0E8 }
+    .CVariable .Prototype {
+        background-color: #FFFFF0; border-color: #E0E0A0 }
+
+    .CClass .Prototype {
+        border-width: 1px 2px 2px 1px; border-style: solid; border-color: #A0A0A0;
+        background-color: #F4F4F4;
+        }
+    .CInterface .Prototype {
+        border-width: 1px 2px 2px 1px; border-style: solid; border-color: #A0A0D0;
+        background-color: #F4F4FF;
+        }
+
+    .CDatabaseIndex .Prototype,
+    .CConstant .Prototype {
+        background-color: #D0D0D0; border-color: #000000 }
+    .CType .Prototype,
+    .CEnumeration .Prototype {
+        background-color: #FAF0F0; border-color: #E0B0B0;
+        }
+    .CDatabaseTrigger .Prototype,
+    .CEvent .Prototype,
+    .CDelegate .Prototype {
+        background-color: #F0FCF0; border-color: #B8E4B8 }
+
+    .CToolTip .Prototype {
+        margin: 0 0 .5em 0;
+        white-space: nowrap;
+        }
+
+
+
+
+
+.Summary {
+    margin: 1.5em 5ex 0 5ex }
+
+    .STitle {
+        font-size: 12pt; font-weight: bold;
+        margin-bottom: .5em }
+
+
+    .SBorder {
+        background-color: #FFFFF0;
+        padding: 15px;
+        border: 1px solid #C0C060 }
+
+    /* In a frame IE 6 will make them too long unless you set the width to 100%.  Without frames it will be correct without a width
+        or slightly too long (but not enough to scroll) with a width.  This arbitrary weirdness simply astounds me.  IE 7 has the same
+        problem with frames, haven't tested it without.  */
+    .FramedContentPage .IE .SBorder {
+        width: 100% }
+
+    /*  A treat for Mozilla users.  Blatantly non-standard.  Will be replaced with CSS 3 attributes when finalized/supported.  */
+    .Firefox .SBorder {
+        -moz-border-radius: 20px }
+
+
+    .STable {
+        font-size: 9pt; width: 100% }
+
+    .SEntry {
+        width: 30% }
+    .SDescription {
+        width: 70% }
+
+
+    .SMarked {
+        background-color: #F8F8D8 }
+
+    .SDescription { padding-left: 2ex }
+    .SIndent1 .SEntry { padding-left: 1.5ex }   .SIndent1 .SDescription { padding-left: 3.5ex }
+    .SIndent2 .SEntry { padding-left: 3.0ex }   .SIndent2 .SDescription { padding-left: 5.0ex }
+    .SIndent3 .SEntry { padding-left: 4.5ex }   .SIndent3 .SDescription { padding-left: 6.5ex }
+    .SIndent4 .SEntry { padding-left: 6.0ex }   .SIndent4 .SDescription { padding-left: 8.0ex }
+    .SIndent5 .SEntry { padding-left: 7.5ex }   .SIndent5 .SDescription { padding-left: 9.5ex }
+
+    .SDescription a { color: #800000}
+    .SDescription a:active { color: #A00000 }
+
+    .SGroup td {
+        padding-top: .5em; padding-bottom: .25em }
+
+    .SGroup .SEntry {
+        font-weight: bold; font-variant: small-caps }
+
+    .SGroup .SEntry a { color: #800000 }
+    .SGroup .SEntry a:active { color: #F00000 }
+
+
+    .SMain td,
+    .SClass td,
+    .SDatabase td,
+    .SDatabaseTable td,
+    .SSection td {
+        font-size: 10pt;
+        padding-bottom: .25em }
+
+    .SClass td,
+    .SDatabase td,
+    .SDatabaseTable td,
+    .SSection td {
+        padding-top: 1em }
+
+    .SMain .SEntry,
+    .SClass .SEntry,
+    .SDatabase .SEntry,
+    .SDatabaseTable .SEntry,
+    .SSection .SEntry {
+        font-weight: bold;
+        }
+
+    .SMain .SEntry a,
+    .SClass .SEntry a,
+    .SDatabase .SEntry a,
+    .SDatabaseTable .SEntry a,
+    .SSection .SEntry a { color: #000000 }
+
+    .SMain .SEntry a:active,
+    .SClass .SEntry a:active,
+    .SDatabase .SEntry a:active,
+    .SDatabaseTable .SEntry a:active,
+    .SSection .SEntry a:active { color: #A00000 }
+
+
+
+
+
+.ClassHierarchy {
+    margin: 0 15px 1em 15px }
+
+    .CHEntry {
+        border-width: 1px 2px 2px 1px; border-style: solid; border-color: #A0A0A0;
+        margin-bottom: 3px;
+        padding: 2px 2ex;
+        font-size: 10pt;
+        background-color: #F4F4F4; color: #606060;
+        }
+
+    .Firefox .CHEntry {
+        -moz-border-radius: 4px;
+        }
+
+    .CHCurrent .CHEntry {
+        font-weight: bold;
+        border-color: #000000;
+        color: #000000;
+        }
+
+    .CHChildNote .CHEntry {
+        font-style: italic;
+        font-size: 8pt;
+        }
+
+    .CHIndent {
+        margin-left: 3ex;
+        }
+
+    .CHEntry a:link,
+    .CHEntry a:visited,
+    .CHEntry a:hover {
+        color: #606060;
+        }
+    .CHEntry a:active {
+        color: #800000;
+        }
+
+
+
+
+
+#Index {
+    background-color: #FFFFFF;
+    }
+
+/*  As opposed to .PopupSearchResultsPage #Index  */
+.IndexPage #Index,
+.FramedIndexPage #Index,
+.FramedSearchResultsPage #Index {
+    padding: 15px;
+    }
+
+.IndexPage #Index {
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+    border-color: #000000;
+    font-size: 9pt;  /* To make 27ex match the menu's 27ex. */
+    margin-left: 27ex;
+    }
+
+
+    .IPageTitle {
+        font-size: 20pt; font-weight: bold;
+        color: #FFFFFF; background-color: #7070C0;
+        padding: 10px 15px 10px 15px;
+        border-width: 0 0 3px 0; border-color: #000000; border-style: solid;
+        margin: -15px -15px 0 -15px }
+
+    .FramedSearchResultsPage .IPageTitle {
+        margin-bottom: 15px;
+        }
+
+    .INavigationBar {
+        font-size: 10pt;
+        text-align: center;
+        background-color: #FFFFF0;
+        padding: 5px;
+        border-bottom: solid 1px black;
+        margin: 0 -15px 15px -15px;
+        }
+
+    .INavigationBar a {
+        font-weight: bold }
+
+    .IHeading {
+        font-size: 16pt; font-weight: bold;
+        padding: 2.5em 0 .5em 0;
+        text-align: center;
+        width: 3.5ex;
+        }
+    #IFirstHeading {
+        padding-top: 0;
+        }
+
+    .IEntry {
+        font-size: 10pt;
+        padding-left: 1ex;
+        }
+    .PopupSearchResultsPage .IEntry {
+        font-size: 8pt;
+        padding: 1px 5px;
+        }
+    .PopupSearchResultsPage .Opera9 .IEntry,
+    .FramedSearchResultsPage .Opera9 .IEntry {
+        text-align: left;
+        }
+    .FramedSearchResultsPage .IEntry {
+        padding: 0;
+        }
+
+    .ISubIndex {
+        padding-left: 3ex; padding-bottom: .5em }
+    .PopupSearchResultsPage .ISubIndex {
+        display: none;
+        }
+
+
+    /*  While it may cause some entries to look like links when they aren't, I found it's much easier to read the
+         index if everything's the same color.  */
+    .ISymbol {
+        font-weight: bold; color: #900000  }
+
+    .IndexPage .ISymbolPrefix,
+    .FramedIndexPage .ISymbolPrefix {
+        font-size: 10pt;
+        text-align: right;
+        color: #C47C7C;
+        background-color: #F8F8F8;
+        border-right: 3px solid #E0E0E0;
+        border-left: 1px solid #E0E0E0;
+        padding: 0 1px 0 2px;
+        }
+    .PopupSearchResultsPage .ISymbolPrefix,
+    .FramedSearchResultsPage .ISymbolPrefix {
+        color: #900000;
+        }
+    .PopupSearchResultsPage .ISymbolPrefix {
+        font-size: 8pt;
+        }
+
+    .IndexPage #IFirstSymbolPrefix,
+    .FramedIndexPage #IFirstSymbolPrefix {
+        border-top: 1px solid #E0E0E0;
+        }
+    .IndexPage #ILastSymbolPrefix,
+    .FramedIndexPage #ILastSymbolPrefix {
+        border-bottom: 1px solid #E0E0E0;
+        }
+    .IndexPage #IOnlySymbolPrefix,
+    .FramedIndexPage #IOnlySymbolPrefix {
+        border-top: 1px solid #E0E0E0;
+        border-bottom: 1px solid #E0E0E0;
+        }
+
+    a.IParent,
+    a.IFile {
+        display: block;
+        }
+
+    .PopupSearchResultsPage .SRStatus {
+        padding: 2px 5px;
+        font-size: 8pt;
+        font-style: italic;
+        }
+    .FramedSearchResultsPage .SRStatus {
+        font-size: 10pt;
+        font-style: italic;
+        }
+
+    .SRResult {
+        display: none;
+        }
+
+
+
+#Footer {
+    font-size: 8pt;
+    color: #989898;
+    text-align: right;
+    }
+
+#Footer p {
+    text-indent: 0;
+    margin-bottom: .5em;
+    }
+
+.ContentPage #Footer,
+.IndexPage #Footer {
+    text-align: right;
+    margin: 2px;
+    }
+
+.FramedMenuPage #Footer {
+    text-align: center;
+    margin: 5em 10px 10px 10px;
+    padding-top: 1em;
+    border-top: 1px solid #C8C8C8;
+    }
+
+    #Footer a:link,
+    #Footer a:hover,
+    #Footer a:visited { color: #989898 }
+    #Footer a:active { color: #A00000 }
+
+
+#MainTopic .CTitle {					/* Title: */
+  font-size: 20pt;
+  font-weight: bold; /* Bold looks better against dark background. */
+  font-family: Arial, Helvetica, sans-serif, "MS sans serif"; 
+  background-color: #405871;
+  color: #FFFFFF;
+  margin: 0 0 0.5em 0;
+  padding: 10px 15px 10px 15px;
+}
+
+
+.SBorder,.SEntry, .SDescription {				/* Summary index */
+  background-color: #F2F2F2;
+  padding: 5px;
+  border: 1px solid #E0E0E0 }
+.SBorder{ padding: 1px; }
+
+
+.CTitle {							/* Function */
+  background-color: #FFFFAA;
+  margin: 1 1 1 1;
+  padding: 12px 0 12px 4px;
+  font-size: 12pt; font-weight: bold;
+  border-width: 3px 0px 0px 0; border-style: solid; border-color: #A0A0A0;
+}
+
+
+h4 {							/* topics.. (parameters, returns, example..) */
+  font-size: 111%;  font-weight: bold;
+  background-color:#E6E6E6;
+  margin: 1.0em 0 0.5em 0;
+  padding: 0.1em 0 0.1em 0.2em;
+}
+
+
+.CDescriptionList, .CDLEntry, .CDLDescription {			/* parameter table */
+  width: 100%;
+  margin: 1em 0ex 0 0ex;
+  border-width: 1px 1px 1px 1px; border-style: solid; border-color: #C0C0C0;
+}
+.CDLEntry, .CDLDescription { margin: 0 0 0em 0;  text-indent: 0px;  padding-left: 1ex; padding-bottom: .5em; padding-top: .5em; }
+.CDLEntry { width: 15%; font: 10pt "Courier New", Courier, monospace; }
+
+/*  Blockquotes are used as containers for things that may need to scroll.  */
+blockquote {
+    padding: 20;
+        padding-left: 9px; border-left-width: 1px;
+    margin: 0;
+    overflow: auto;
+    background-color: #F3F3FF;			/* example bg color..*/
+        border-width: 0px 0px 0px 0px; border-style: solid; border-color: #838B8B;
+    }
+
+/* .ContentPage #Content { margin-left: 0ex; }   */
+
+
+a        {text-decoration: none;}
+a:link   {text-decoration: none; color: #0000AA;}
+a:visited{text-decoration: none; color: #AA00AA;}
+a:active {text-decoration: none; color: #0000AA;}
+a:hover  {text-decoration: underline; color: #6666CC;}</style><script language="JavaScript" src="./cycleWindow_files/main.js"></script><script language="JavaScript" src="./cycleWindow_files/searchdata.js"></script></head><body class="ContentPage" onload="NDOnLoad()"><script language="JavaScript"><!--
+if (browserType) {document.write("<div class=" + browserType + ">");if (browserVer) {document.write("<div class=" + browserVer + ">"); }}// --></script>
+
+<!--  Generated by Natural Docs, version 1.4 -->
+<!--  http://www.naturaldocs.org  -->
+
+<!-- saved from url=(0026)http://www.naturaldocs.org -->
+
+
+
+
+<div id="Content"><div class="CSection"><div class="CTopic" id="MainTopic"><h1 class="CTitle"><a name="cycleWindow.ahk"></a>cycleWindow.ahk</h1><div class="CBody"><p>Allows user to tab through a narrowed subset of windows, as one would alt-tab through the set of all visible windows, or open a new window by launching a path, all in a single hotkey.</p><p>Requires maul.esel’s library “Thumbnail Lib.ahk” (<a href="http://www.autohotkey.net/~maul.esel/ThumbnailLib/Thumbnail%20Lib.ahk" class="LURL" target="_top">http://www.autohotkey.net<wbr>/~maul.esel<wbr>/ThumbnailLib<wbr>/Thumbnail%20Lib.ahk</a>).</p><h4 class="CHeading">Info</h4><p>cycleWindow Version: 1.22</p><p>Forum Link: <a href="http://www.autohotkey.com/forum/viewtopic.php?t=71596" class="LURL" target="_top">http://www.autohotkey.com<wbr>/forum<wbr>/viewtopic.php?t=71596</a></p><p>Author: Jon Smithers</p><p>AutoHotkey Version: 1.0.48.05</p><p>Platform: Windows Vista, Windows 7</p><!--START_ND_SUMMARY--><div class="Summary"><div class="STitle">Summary</div><div class="SBorder"><table border="0" cellspacing="0" cellpadding="0" class="STable"><tbody><tr class="SMain"><td class="SEntry"><a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleWindow.ahk">cycleWindow.ahk</a></td><td class="SDescription">Allows user to tab through a narrowed subset of windows, as one would alt-tab through the set of all visible windows, or open a new window by launching a path, all in a single hotkey.</td></tr><tr class="SGroup SIndent1"><td class="SEntry"><a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#Functions">Functions</a></td><td class="SDescription"></td></tr><tr class="SFunction SIndent2 SMarked"><td class="SEntry"><a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleWindow" id="link1" onmouseover="ShowTip(event, &#39;tt1&#39;, &#39;link1&#39;)" onmouseout="HideTip(&#39;tt1&#39;)">cycleWindow</a></td><td class="SDescription">Cycles through a subset of windows or launches a path.</td></tr><tr class="SFunction SIndent2"><td class="SEntry"><a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleCurrentWindow" id="link2" onmouseover="ShowTip(event, &#39;tt2&#39;, &#39;link2&#39;)" onmouseout="HideTip(&#39;tt2&#39;)">cycleCurrentWindow</a></td><td class="SDescription">Cycles through windows of the same class as the currently active window. </td></tr><tr class="SGroup SIndent1"><td class="SEntry"><a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#Examples">Examples</a></td><td class="SDescription"></td></tr><tr class="SGroup SIndent1"><td class="SEntry"><a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#Changes">Changes</a></td><td class="SDescription"></td></tr></tbody></table></div></div><!--END_ND_SUMMARY--></div></div></div>
+
+<div class="CGroup"><div class="CTopic"><h3 class="CTitle"><a name="Functions"></a>Functions</h3></div></div>
+
+<div class="CFunction"><div class="CTopic"><h3 class="CTitle"><a name="cycleWindow"></a>cycleWindow</h3><div class="CBody"><blockquote><table border="0" cellspacing="0" cellpadding="0" class="Prototype"><tbody><tr><td><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="PBeforeParameters" nowrap="">cycleWindow(</td><td class="PParameter" nowrap="">title</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">"",</td></tr><tr><td></td><td class="PParameter" nowrap="">regExp</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">"([^-]*).*",</td></tr><tr><td></td><td class="PParameter" nowrap="">pathToRun</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">""</td><td class="PAfterParameters" nowrap="">)</td></tr></tbody></table></td></tr></tbody></table></blockquote><p>Cycles through a subset of windows or launches a path.</p><h4 class="CHeading">Parameters</h4><table border="0" cellspacing="0" cellpadding="0" class="CDescriptionList"><tbody><tr><td class="CDLEntry">title</td><td class="CDLDescription">Determines which windows will be included in the subset.&nbsp; This can be a title, like “Notepad”, or something like “ahk_class CabinetWClass”.&nbsp; Windows without a title are automatically removed.&nbsp; If this parameter is blank, the subset will include all windows, except those with blank titles, the Start Button window, as well as the bottom window, which is always “Program Manager”.&nbsp; You can also employ a much more complicated and flexible method of determining the subset by putting “|” as the first character.&nbsp; See the “Inclusion/Exclusion” section below.</td></tr><tr><td class="CDLEntry">regExp</td><td class="CDLDescription">A regular expression that describes how to trim the title of each window in the subset for display in the ListView.&nbsp; The listview will display only the first group in the regular expression.&nbsp; By default, regExp is “([^-]*).*”.&nbsp; Simply putting “” will yield the same result.&nbsp; Specify the regular expression “(.*)” to not trim anything from the title.&nbsp; Specify “0” to not display the ListView at all.&nbsp; This parameter is useful because you may not want to see (for example) the “ - Google Chrome” at the end of every Chrome window title.&nbsp; Specifying “(.*) - Google Chrome” here will trim that out.&nbsp; For more info on regular expressions, see <a href="http://www.autohotkey.com/docs/misc/RegEx-QuickRef.htm" class="LURL" target="_top">http://www.autohotkey.com<wbr>/docs<wbr>/misc<wbr>/RegEx-QuickRef.htm</a>.</td></tr><tr><td class="CDLEntry">pathToRun</td><td class="CDLDescription">The path used to open a new window in the case that no existing windows currently match the criteria to be in the subset, or in the case that you are holding the “cycleWindow_NewWindowKey” (which is initially set to “LWin”) when the hotkey is pressed.</td></tr></tbody></table><h4 class="CHeading">Inclusion/Exclusion</h4><p>This is a mode where cycleWindow uses a much more flexible and complex method of determing the subset.&nbsp; To use inclusions/exclusions, the first character of the title parameter must be “|”.</p><table border="0" cellspacing="0" cellpadding="0" class="CDescriptionList"><tbody><tr><td class="CDLEntry">Format</td><td class="CDLDescription">”| includeCriteria_1, includeCriteria_2, ..., includeCriteria_X | excludeCriteria_1, excludeCriteria_2, ..., excludeCriteria_Y “</td></tr></tbody></table><p>The comma-separated list after the first “|” comprises the Inclusions.&nbsp; The comma-separated list after the second “|” comprises the Exclusions.&nbsp; Each criteria can be a window title, or a window class if it is preceded with “ahk_class” (only titles and classes are supported).</p><p>Commas should only be placed BETWEEN criteria of a comma-separated list (never at the end).</p><p>It is also possible to specify 0 inclusions or 0 exclusions.&nbsp; Specifying 0 inclusions will include ALL windows except those that match the specified exclusions.&nbsp; Specifying 0 exclusions will simply not exclude any of the windows that match the specified inclusions.</p><h4 class="CHeading">SETTINGS</h4><p>A few easily-changeable tweaks that affect how the function acts.</p><p>These can be found in the beginning lines of the function in cycleWindow.ahk.&nbsp; If you want these settings to differ between various calls of <a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleWindow" class="LFunction" id="link3" onmouseover="ShowTip(event, &#39;tt1&#39;, &#39;link3&#39;)" onmouseout="HideTip(&#39;tt1&#39;)">cycleWindow</a>, you can add them as optional parameters to <a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleWindow" class="LFunction" id="link4" onmouseover="ShowTip(event, &#39;tt1&#39;, &#39;link4&#39;)" onmouseout="HideTip(&#39;tt1&#39;)">cycleWindow</a>.</p><table border="0" cellspacing="0" cellpadding="0" class="CDescriptionList"><tbody><tr><td class="CDLEntry">cycleWindow_UseThumbnails</td><td class="CDLDescription">If you have Windows Vista or later, you can use window thumbnails.&nbsp; This is a nice way to show a window without having to actually activate it.&nbsp; This is the preferred way, but requires maul.esel’s library from <a href="http://www.autohotkey.com/forum/viewtopic.php?t=70839" class="LURL" target="_top">http://www.autohotkey.com<wbr>/forum<wbr>/viewtopic.php?t=70839</a>.</td></tr><tr><td class="CDLEntry">cycleWindow_thumbnailColor</td><td class="CDLDescription">Thumbnails are displayed on a GUI.&nbsp; This GUI, which is underneath the thumbnails, can be transparent or opaque.&nbsp; If you are using Aero (so the borders of your windows are transparent), having a colored GUI behind the thumbnails creates a nice highlighting effect.&nbsp; Specify the color of the highlight in this setting.&nbsp; To disable highlight, set it to “0” (this might be desirable if you don’t use aero transparency).</td></tr><tr><td class="CDLEntry">cycleWindow_thumbnailBorder</td><td class="CDLDescription">Thumbnails are displayed on a GUI.&nbsp; This determines how many pixels the GUI should extend out from behind the thumbnail, creating a border.&nbsp; If you are using Aero, the highlighting effect should be enough, so set this to 0.</td></tr><tr><td class="CDLEntry">cycleWindow_disableThumbFade</td><td class="CDLDescription">Disables the highlight-fading that occurs when your release your finger from the holdkey (e.g.&nbsp; CapsLock).&nbsp; This feature uses the only global variable in <a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleWindow" class="LFunction" id="link5" onmouseover="ShowTip(event, &#39;tt1&#39;, &#39;link5&#39;)" onmouseout="HideTip(&#39;tt1&#39;)">cycleWindow</a>.</td></tr><tr><td class="CDLEntry">cycleWindow_ListViewGUI</td><td class="CDLDescription">The GUI number (1-99) that will be used to create the ListView which shows the window titles.</td></tr><tr><td class="CDLEntry">cycleWindow_ThumbnailGUI</td><td class="CDLDescription">The GUI number (1-99) that will be used to create the windows’ thumbnails (if cycleWindow_UseThumbnails is set to true).</td></tr><tr><td class="CDLEntry">cycleWindow_matchMode</td><td class="CDLDescription">TitleMatchMode.&nbsp; Used with AHK’s SetTitleMatchMode (<a href="http://www.autohotkey.com/docs/commands/SetTitleMatchMode.htm" class="LURL" target="_top">http://www.autohotkey.com<wbr>/docs<wbr>/commands<wbr>/SetTitleMatchMode.htm</a>) to set how windows are to be searched with the title parameter.&nbsp; It has been set to 2, meaning that if a window contains <b>title</b>’s text anywhere in its title, it is considered a match.</td></tr><tr><td class="CDLEntry">cycleWindow_ListViewWidth</td><td class="CDLDescription">The width (in pixels) of the ListView.&nbsp; Increasing the width will cause the ListView to extend farther into the center of the screen.&nbsp; This is set initially to 200.</td></tr><tr><td class="CDLEntry">cycleWindow_NewWindowKey</td><td class="CDLDescription">If this key is held down when you press the cycle key, the function launches a new window by running the path of the parameter pathToRun.&nbsp; It is set initially to “LWin”.</td></tr><tr><td class="CDLEntry">cycleWindow_reverseKey</td><td class="CDLDescription">If this key is held down when you press the cycle key, the function cycles backwards instead of fowards (like shift in Alt-Tab).</td></tr></tbody></table></div></div></div>
+
+<div class="CFunction"><div class="CTopic"><h3 class="CTitle"><a name="cycleCurrentWindow"></a>cycleCurrentWindow</h3><div class="CBody"><blockquote><table border="0" cellspacing="0" cellpadding="0" class="Prototype"><tbody><tr><td><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="PBeforeParameters" nowrap="">cycleCurrentWindow(</td><td class="PParameter" nowrap="">regExp</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">"([^-]*).*"</td><td class="PAfterParameters" nowrap="">)</td></tr></tbody></table></td></tr></tbody></table></blockquote><p>Cycles through windows of the same class as the currently active window.&nbsp; This function simply gets the class of the active window, and passes it as a parameter to <a href="https://dl.dropboxusercontent.com/u/1780553/AHK/Home/cycleWindow/cycleWindow.html#cycleWindow" class="LFunction" id="link6" onmouseover="ShowTip(event, &#39;tt1&#39;, &#39;link6&#39;)" onmouseout="HideTip(&#39;tt1&#39;)">cycleWindow</a>.</p></div></div></div>
+
+<div class="CGroup"><div class="CTopic"><h3 class="CTitle"><a name="Examples"></a>Examples</h3><div class="CBody"><blockquote><pre>CapsLock &amp; e::cycleWindow("ahk_class CabinetWClass", "", "C:\Users\Jon\School\Fall11") ;Windows Explorer
+
+CapsLock &amp; p::cycleWindow("ahk_class MSPaintApp", "(.*) - Paint", "mspaint")
+
+CapsLock &amp; v::cycleWindow("VLC ahk_class QWidget", "(.*) - VLC media player", "C:\Program Files (x86)\VideoLAN\VLC\vlc.exe")
+
+CapsLock &amp; i::cycleWindow("- Google Chrome", "(.*) - Google Chrome", "C:\Users\Jon\AppData\Local\Google\Chrome\Application\chrome.exe")
+
+CapsLock &amp; n::cycleWindow("ahk_class Notepad2U", "(.*) - Notepad2", "C:\Program Files (x86)\Notepad2\Notepad2.exe")
+
+CapsLock &amp; c::cycleCurrentWindow("([^\-]+).*")</pre></blockquote></div></div></div>
+
+<div class="CGroup"><div class="CTopic"><h3 class="CTitle"><a name="Changes"></a>Changes</h3><div class="CBody"><h4 class="CHeading">5/10/2011-5/11/2011</h4><ul><li>fixed thumbnail-sizing bug occuring when corresponding window was about full height of the screen (‘twas a silly mistake)</li><li>removed obsolete cycleWindow_shrinkThumb setting</li><li>removed Critical command from top of function, fixing some really weird issues resembling buffered hotkey threads (even though “#MaxThreadsBuffer” was off)</li><li>fixed the highlight-fading’s “cutting-out” issue, which was mostly accomplished through the change immediately above</li><li>added ability to change ListView width</li></ul><p>The above changes constituted the 1.1 update</p><h4 class="CHeading">5/13/2011</h4><ul><li>user can now cycle backwards on the first iteration (in the case that a window in the subset is already active), whereas before user could only cycle backwards on the second iteration and after.</li><li>all parameters for cycleWindow are optional now</li><li>the function always removes windows with blank titles from the list</li><li>when all parameters are omitted, the function will also remove “progman” and “start”.&nbsp; It also automatically uses the regex “([^\-]+).*” to display the title.</li><li>the default regex for cycleCurrentWindow is “([^\-]+).*” as well, instead of “(.*)”</li></ul><h4 class="CHeading">5/20/2011-6/1/2011</h4><ul><li>Inclusion/Exclusion - much more flexible and complex way to narrow subset</li><li>function only removes blank titles when the title parameter is blank (or excluded) or there are no inclusions specified within the title parameter (in the inclusion/exclusion mode)</li><li>Added code that removes the specific “Start, ahk_class Button” window from the list rather than simply excluding all windows with “Start” in their title.&nbsp; This code is run whenever the removeBlankTitles code is run.</li><li>modified default regexes</li><li>ListView width is now set initially to 200</li></ul><p>The above changes constituted the 1.2 update</p><h4 class="CHeading">6/2/2011</h4><ul><li>Removed accidental “.” from the end of the line LV_Modify(i, “+Select”), which may have prevented use with AHK_L.&nbsp; (update 1.21)</li><li>Tidied up code for removing extraneous windows.&nbsp; The code for removeBlankTitles will ALWAYS get run (as before).&nbsp; However, other extraneous windows, like “Start” and “Progman”, get removed when the title parameter is blank, or there are 0 inclusions.</li><li>Fixed bug in removeStart code for “Start, ahk_class Button” where the last window in the list would be excluded.&nbsp; (update 1.22)</li></ul></div></div></div>
+
+</div><!--Content-->
+
+
+<div id="Footer"><a href="http://www.naturaldocs.org/">Generated by Natural Docs</a></div><!--Footer-->
+
+
+
+
+
+
+<!--START_ND_TOOLTIPS-->
+<div class="CToolTip" id="tt1"><div class="CFunction"><blockquote><table border="0" cellspacing="0" cellpadding="0" class="Prototype"><tbody><tr><td><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="PBeforeParameters" nowrap="">cycleWindow(</td><td class="PParameter" nowrap="">title</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">"",</td></tr><tr><td></td><td class="PParameter" nowrap="">regExp</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">"([^-]*).*",</td></tr><tr><td></td><td class="PParameter" nowrap="">pathToRun</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">""</td><td class="PAfterParameters" nowrap="">)</td></tr></tbody></table></td></tr></tbody></table></blockquote>Cycles through a subset of windows or launches a path.</div></div><div class="CToolTip" id="tt2"><div class="CFunction"><blockquote><table border="0" cellspacing="0" cellpadding="0" class="Prototype"><tbody><tr><td><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td class="PBeforeParameters" nowrap="">cycleCurrentWindow(</td><td class="PParameter" nowrap="">regExp</td><td class="PDefaultValuePrefix">&nbsp;=&nbsp;</td><td class="PDefaultValue" width="100%">"([^-]*).*"</td><td class="PAfterParameters" nowrap="">)</td></tr></tbody></table></td></tr></tbody></table></blockquote>Cycles through windows of the same class as the currently active window. </div></div><!--END_ND_TOOLTIPS-->
+
+
+
+
+<div id="MSearchResultsWindow"><iframe src="" frameborder="0" name="MSearchResults" id="MSearchResults"></iframe><a href="javascript:searchPanel.CloseResultsWindow()" id="MSearchResultsWindowClose">Close</a></div>
+
+
+<script language="JavaScript"><!--
+if (browserType) {if (browserVer) {document.write("</div>"); }document.write("</div>");}// --></script></body></html>
