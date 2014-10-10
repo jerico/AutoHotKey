@@ -31,6 +31,10 @@ if (key == "F")
   Run %AppDir%\FileZilla\FileZillaPortable.exe
 
 if (key == "g")
+  Run %AppDir%\GreenShot\GreenShot.exe
+
+; Gif recorder
+if (key == "G") 
   Run %AppDir%\licecap\licecap.exe
 
 if (key == "j")
@@ -60,9 +64,6 @@ if (key == "S")
 if (key == "r")
   Run %AppDir%\AntRenamer\AntRenamerPortable.exe
 
-if (key == "T")
-  Run %AppDir%\TreeSizeFree\TreeSizeFree.exe
-
 ; terminal
 if (key == "t") { 
   ; If Explorer is active, run Cmder with it's current directory
@@ -75,6 +76,9 @@ if (key == "t") {
     Run %AppDir%\cmder\Cmder.exe
   }
 } 
+
+if (key == "T")
+  Run %AppDir%\TreeSizeFree\TreeSizeFree.exe
 
 if (key == "V")
   Run %AppDir%\VLCPortable\VLCPortable.exe
