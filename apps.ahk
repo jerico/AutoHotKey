@@ -91,10 +91,23 @@ if (key == "u")
   Run %AppDir%\USBDiskEjector\USB_Disk_Eject.exe  
   
 if (key == "x") {
-  if WinExist("ahk_class ThunderRT6FormDC")
+
+  ; If Explorer is active, run Xyplorer with it's current directory
+  if (WinActive("ahk_class CabinetWClass")) {
+    ControlGetText, _Path, toolbarwindow323, ahk_class CabinetWClass
+    StringReplace, _Path, _Path,% "Address: ",% ""
+    Run %AppDir%\xyplorer\XYplorer.exe %_Path%
+  }
+
+  ; Single-instance only
+  else if (WinExist("ahk_class ThunderRT6FormDC")) {
     WinActivate
-  else
+  }
+
+  else { 
     Run %AppDir%\xyplorer\XYplorer.exe
+  }
+
 }
 
 if (key == "X")
